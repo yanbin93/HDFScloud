@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Basic DataGrid - jQuery EasyUI Demo</title>
+    <link rel="stylesheet" type="text/css" href="js/jquery/easyui/themes/default/easyui.css">  
+<link rel="stylesheet" type="text/css" href="js/jquery/easyui/themes/icon.css">  
+<link rel="stylesheet" type="text/css" href="js/jquery/easyui/demo/demo.css">  
+<script type="text/javascript" src="js/jquery/easyui/jquery.min.js"></script>  
+<script type="text/javascript" src="js/jquery/easyui/jquery.easyui.min.js"></script>  
+    <script type="text/javascript" src="js/jquery/easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="js/jquery/easyui/jquery.edatagrid.js"></script>
+    <script>
+   $(function(){
+           $('#dg').edatagrid({
+               url: 'sellersServlet?type=list',
+               saveUrl: 'sellersServlet?type=save',
+               updateUrl: 'sellersServlet?type=save',
+               destroyUrl: 'sellersServlet?type=delete'
+           });
+   });     
+    </script>
+</head>
+<body>
+    <table id="dg" title="销售商管理" class="easyui-datagrid"
+            toolbar="#toolbar" pagination="true" idField="id" 
+            rownumbers="true" fitColumns="true" singleSelect="false" >
+        <thead>
+            <tr>
+            	<th data-options="field:'ck',checkbox:true"></th>
+                <th field="seller_name" width="50" editor="{type:'validatebox',options:{required:true}}" >销售商名称</th>
+                  <th field="seller_permit" width="50"editor="{type:'validatebox',options:{required:true}}" >销售许可证号</th>
+                  <th field="seller_code" width="50"editor="{type:'validatebox',options:{required:true}}" >销售商代号</th>
+                  <th field="seller_address" width="50"editor="{type:'validatebox',options:{required:true}}" >销售商地址</th>
+                  <th field="seller_phone" width="50" editor="{type:'validatebox',options:{required:true}}" >销售商电话</th>
+                  <th field="seller_mail" width="50"  editor="{type:'validatebox',options:{validType:'email',required:true}}" >销售商邮箱</th>
+                    <th field="seller_contact" width="50" editor="{type:'validatebox',options:{required:true}}" >销售商联系人</th>
+                <th field="seller_other" width="50" editor="{type:'validatebox',options:{required:false}}">销售商备注</th>
+                
+  
+        </thead>
+    </table>
+     <div id="toolbar">
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="javascript:$('#dg').edatagrid('addRow')">添加</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="javascript:$('#dg').edatagrid('destroyRow')">删除</a>
+         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" plain="true" onclick="deleteRows()">批量删除</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" plain="true" onclick="javascript:$('#dg').edatagrid('saveRow')">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-undo" plain="true" onclick="javascript:$('#dg').edatagrid('cancelRow')">撤销</a>
+    </div>
+    
+</body>
+</html>

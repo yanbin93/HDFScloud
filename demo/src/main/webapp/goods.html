@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Basic DataGrid - jQuery EasyUI Demo</title>
+    <link rel="stylesheet" type="text/css" href="js/jquery/easyui/themes/default/easyui.css">  
+<link rel="stylesheet" type="text/css" href="js/jquery/easyui/themes/icon.css">  
+<link rel="stylesheet" type="text/css" href="js/jquery/easyui/demo/demo.css">  
+<script type="text/javascript" src="js/jquery/easyui/jquery.min.js"></script>  
+<script type="text/javascript" src="js/jquery/easyui/jquery.easyui.min.js"></script>  
+    <script type="text/javascript" src="js/jquery/easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script>
+
+        var url;
+        function deleteUser(){
+            var row=$('#dg').datagrid('getSelected');
+            if(row){
+                $.messager.confirm("系统提示","您确定要删除这条记录吗?",function(r){
+                    if(r){
+                        $.post('goodsDelete',{id:row.id},function(result){
+                            if(result.success){
+                                $.messager.alert("系统提示","已成功删除这条记录!");
+                                $("#dg").datagrid("reload");
+                            }else{
+                                $.messager.alert("系统提示",result.errorMsg);
+                            }
+                        },'json');
+                    }
+                });
+            }
+        }
+        
+        function newUser(){
+            $("#dlg").dialog('open').dialog('setTitle','添加商品');
+            $('#fm').form('clear');
+            url='goodsSave';
+        }
+        
+        
+        function editUser(){
+            var row=$('#dg').datagrid('getSelected');
+            if(row){
+                $("#dlg").dialog('open').dialog('setTitle','编辑商品');
+                $('#fm').form('load',row);
+                url='goodsSave?id='+row.id;
+            }
+        }
+        
+        
+        function saveUser(){
+            $('#fm').form('submit',{
+                url:url,
+                onSubmit:function(){
+                    return $(this).form('validate');
+                },
+                success:function(result){
+                    var result=eval('('+result+')');
+                    if(result.errorMsg){
+                        $.messager.alert("系统提示",result.errorMsg);
+                        return;
+                    }else{
+                        $.messager.alert("系统提示","保存成功");
+                        $('#dlg').dialog('close');
+                        $("#dg").datagrid("reload");
+                    }
+                }
+            });
+        }
+        function sort_int(a,b){return (a>b?-1:1);}
+    </script>
+</head>
+<body>
+    <table id="dg" title="用户管理" class="easyui-datagrid" 
+            url="goodsList"
+            toolbar="#toolbar" pagination="true"
+            rownumbers="true" fitColumns="true" singleSelect="true">
+        <thead>
+            <tr>
+            	<th field="id" width="50" hidden="true">商品id</th>
+                <th field="goods_name" width="50" sortable="true" sorter="sort_int" >商品名称</th>
+                <th field="goods_code" width="50">商品编号</th>
+                <th field="goods_other" width="50">商品备注</th>
+                <th field="products_id" width="50">产品批次号</th>
+            </tr>
+        </thead>
+    </table>
+    <div id="toolbar">
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">添加商品</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">编辑商品</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteUser()">删除商品</a>
+    </div>
+    
+    <div id="dlg" class="easyui-dialog" style="width:400px;height:250px;padding:10px 20px"
+            closed="true" buttons="#dlg-buttons">
+        <form id="fm" method="post">
+            <table cellspacing="10px;">
+                <tr>
+                    <td>商品名称： </td>
+                    <td><input name="goods_name" class="easyui-validatebox" required="true" style="width: 200px;"></td>
+                </tr>
+                <tr>
+                    <td>商品编号：</td>
+                    <td><input name="goods_code" class="easyui-validatebox" required="true" style="width: 200px;"></td>
+                </tr>
+                <tr>
+                    <td>商品备注：</td>
+                    <td><input name="goods_other" class="easyui-validatebox" required="false" style="width: 200px;"></td>
+                </tr>
+                <tr>
+                    <td>产品批次号：</td>
+                    <td>  <input id="cc" name="products_id" class="easyui-combobox"   style="width: 200px;" data-options="url:'productsList?type=idlist',valueField:'id',textField:'cnt'" />
+</td>
+                </tr>
+        
+                </tr>
+                
+                
+            </table>
+        </form>
+    </div>
+    
+    <div id="dlg-buttons">
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveUser()">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">关闭</a>
+    </div>
+</body>
+</html>

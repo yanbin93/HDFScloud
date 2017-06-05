@@ -1,0 +1,3 @@
+HADOOP_URL=hdfs://master1:9002
+HIVE_URL = jdbc:hive2://master1:10000/yanbin
+username_table=usernametest

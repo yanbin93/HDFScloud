@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<link rel="stylesheet" type="text/css"
+	href="js/jquery/bootstrap/css/bootstrap.min.css" /> 
+<script src="js/jquery/bootstrap/jquery/jquery-2.1.1.min.js" ></script>
+<script src="js/jquery/bootstrap/js/bootstrap.min.js" > </script>
+    <link rel="stylesheet" type="text/css" href="js/jquery/easyui/themes/default/easyui.css">  
+<link rel="stylesheet" type="text/css" href="js/jquery/easyui/themes/icon.css">  
+<link rel="stylesheet" type="text/css" href="js/jquery/easyui/demo/demo.css">  
+<script type="text/javascript" src="js/jquery/easyui/jquery.min.js"></script>  
+<script type="text/javascript" src="js/jquery/easyui/jquery.easyui.min.js"></script>  
+    <script type="text/javascript" src="js/jquery/easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="http://www.jeasyui.com/easyui/datagrid-detailview.js"></script>
+    <script type="text/javascript" src="js/jquery/easyui/jquery.edatagrid.js"></script>
+  
+<script type="text/javascript">
+window.onload = load;
+function GetQueryString(name)
+{
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+}
+
+function load(){
+	var searchid=GetQueryString("code");
+	 if (searchid==""){return;}
+		  $('#dg').datagrid({
+	           url: 'productsList?type=goodsidsearch&goodscode='+searchid
+	       });
+	}
+
+
+
+function searchId(){
+	 var searchid=$("#searchid").val();
+	 if (searchid==""){$.messager.alert("系统提示","请输入商品追溯号！！！");return;}
+		  $('#dg').datagrid({
+	           url: 'productsList?type=goodsidsearch&goodscode='+searchid
+	       });
+	  }
+
+function sellerInfo(){
+	var row = $("#dg").datagrid('getSelected');
+	var searchid = row.seller_id;
+$('#dg3').datagrid({
+	url:'sellersServlet?type=idsearch&searchid='+searchid,
+    fitColumns:true,
+    columns:[[
+        {field:'id',title:'销售商Id',width:100},
+        {field:'seller_name',title:'销售商名称',width:100},
+        {field:'seller_permit',title:'销售商许可',width:100},
+        {field:'seller_code',title:'销售商代号',width:100},
+        {field:'seller_address',title:'销售商地址',width:100},
+        {field:'seller_phone',title:'销售商联系电话',width:100},
+        {field:'seller_mail',title:'销售商邮箱',width:100},
+        {field:'seller_contact',title:'销售商联系人',width:100},
+        {field:'seller_other',title:'销售商备注',width:100}
+    ]]
+});
+}
+
+function supplierInfo(){
+	var row = $("#dg").datagrid('getSelected');
+	var searchid = row.supplier_id;
+$('#dg4').datagrid({
+	url:'suppliersServlet?type=idsearch&searchid='+searchid,
+    fitColumns:true,
+    columns:[[
+        {field:'id',title:'供应商Id',width:100},
+        {field:'supplier_name',title:'供应商名称',width:100},
+        {field:'supplier_permit',title:'供应商许可',width:100},
+        {field:'supplier_code',title:'供应商代号',width:100},
+        {field:'supplier_address',title:'供应商地址',width:100},
+        {field:'supplier_phone',title:'供应商联系电话',width:100},
+        {field:'supplier_mail',title:'供应商邮箱',width:100},
+        {field:'supplier_contact',title:'供应商联系人',width:100},
+        {field:'supplier_other',title:'供应商备注',width:100}
+    ]]
+});
+}
+
+function materialsInfo(){
+	var row = $("#dg").datagrid('getSelected');
+	var searchid = row.id;
+$('#dg5').datagrid({
+	url:'materialsServlet?type=idsearch&searchid='+searchid,
+	pagination:true,
+    fitColumns:true,
+    columns:[[
+        {field:'id',title:'原料id',width:100},
+        {field:'materials_name',title:'原料名称',width:100},
+        {field:'materials_quantity',title:'原料数量',width:100},
+        {field:'stocks_id',title:'进货编号',width:100}
+    ]]
+});
+}
+
+function manufacturerInfo(){
+	var row = $("#dg").datagrid('getSelected');
+	var searchid = row.manufacturer_id;
+$('#dg2').datagrid({
+	url:'manufacturersServlet?type=idsearch&searchid='+searchid,
+    fitColumns:true,
+    columns:[[
+        {field:'id',title:'厂商id',width:100},
+        {field:'manufacturer_name',title:'厂商名称',width:100},
+        {field:'manufacturer_code',title:'厂商代号',width:100},
+        {field:'manufacturer_type',title:'生产商类型',width:100},
+        {field:'manufacturer_permit_range',title:'生产许可范围',width:100},
+        {field:'manufacturer_permit_pic',title:'生产许可证',width:100, formatter: function(value,row){
+            return ' <img id=image onclick=javascript:enlarger() src='+row.manufacturer_permit_pic+' width=200px weight=200px/>';
+        }   
+        }
+    ]]
+});
+}
+function enlarger(){
+	var imgpath=$('#image')[0].src
+	   $('#dlg').dialog('open').dialog({  
+        title: '预览',  
+        width: 600,  
+        height:750,  
+        resizable:true,  
+        closed: false,  
+        cache: false,  
+        modal: true  
+    });  
+    $("#simg").attr("src",imgpath);
+}
+
+</script>
+<style>
+.divsearch{float:right }
+</style>
+</head>
+<body>
+	<div class="container" >
+	<!-- div class="container-fluid"-->
+		<div class="row clearfix" >
+			<div class="col-sm-12 col-md-12 col-lg-12" style="BORDER-LEFT: 3px outset; BRDER-TOP: 3px outset; HEIGHT: 100%">
+				<nav class="navbar navbar-default" role="navigation">
+					<div class="container-fluid">
+							<div>
+					<form class="navbar-form navbar-left" role="search" action="javascript:searchId()" method="post">
+							<div class="form-group">
+								<input id="searchid" name="searchid" class="easyui-validatebox" value="1" required="true"  style="width: 200px;" onkeyup="value=value.replace(/[^\w\.]/ig,'')">
+         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="javascript:searchId()">批次号查询</a>
+							</div>
+						</form>
+          </div>			
+				</div>
+				</nav>
+ <table id="dg" title="商品查询" class="easyui-datagrid" 
+            toolbar="#toolbar" pagination="true" idField="id" 
+            rownumbers="true" fitColumns="true" singleSelect="true" >
+        <thead>
+            <tr>
+                <th field="products_name" width="50" >产品名称</th>
+                <th field="products_other" width="50" >产品备注</th>
+                <th data-options="field: 'manufacturer_id', width:50,
+                formatter:function(value,row){
+							return '<a href=javascript:void(0) onclick=javascript:manufacturerInfo()>' +row.manufacturer_id +'</a>';
+						}">生产商id</th>
+                   <th data-options="field: 'seller_id', width:50,
+                formatter:function(value,row){
+							return '<a href=javascript:void(0) onclick=javascript:sellerInfo()>' +row.seller_id +'</a>';
+						}"> 销售商id</th>
+                  <th data-options="field: 'supplier_id', width:50,
+                formatter:function(value,row){
+							return '<a href=javascript:void(0) onclick=javascript:supplierInfo()>' +row.supplier_id +'</a>';
+						}"> 供应商id</th>
+						 <th data-options="field: 'yuanliao', width:50,
+                formatter:function(value,row){
+							return '<a href=javascript:void(0) onclick=javascript:materialsInfo()>' +'原料' +'</a>';
+						}"> 原料</th>
+        </thead>
+        </table>
+         <table id="dg5" class="easyui-datagrid"></table>
+        <table id="dg2" class="easyui-datagrid"></table>
+        <table id="dg3" class="easyui-datagrid"></table>
+        <table id="dg4" class="easyui-datagrid"></table>
+              <div id="dlg" class="easyui-dialog" style="width:400px;height:250px;padding:10px 20px"
+            closed="true" buttons="#dlg-buttons">
+            <img id="simg"/></div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

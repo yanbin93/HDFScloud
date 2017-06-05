@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Basic DataGrid - jQuery EasyUI Demo</title>
+    <link rel="stylesheet" type="text/css" href="js/jquery/easyui/themes/default/easyui.css">  
+<link rel="stylesheet" type="text/css" href="js/jquery/easyui/themes/icon.css">  
+<link rel="stylesheet" type="text/css" href="js/jquery/easyui/demo/demo.css">  
+<script type="text/javascript" src="js/jquery/easyui/jquery.min.js"></script>  
+<script type="text/javascript" src="js/jquery/easyui/jquery.easyui.min.js"></script>  
+    <script type="text/javascript" src="js/jquery/easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="js/jquery/easyui/jquery.edatagrid.js"></script>
+    <script>
+ 	   $(function(){
+ 			 $('#dg').edatagrid({
+            url: 'productsList?type=list',
+            saveUrl: 'productsList?type=save',
+            updateUrl: 'productsList?type=save',
+            destroyUrl: 'productsList?type=delete'
+        });
+ 			 $('#PageRefresh').click(function() {
+ 		         location.reload();});
+ 	   });
+ 	   
+  	  function searchId(){
+  		 var searchid=$("#searchid").val();
+  		 if (searchid==""){$.messager.alert("系统提示","请输入批次号！！！");return;}
+  		  $('#dg').datagrid({
+  	           url: 'productsList?type=idsearch&searchid='+searchid
+  	       });
+  	  }
+ 	  function searchName(){
+   		 var searchname=$("#searchname").val();
+   		 if (searchname==""){$.messager.alert("系统提示","请输入产品名称！！！");return;}
+   		  $('#dg').datagrid({
+   	           url: 'productsList?type=namesearch&searchname='+searchname
+   	       });
+   	  }
+    </script>
+</head>
+<body>
+<div>
+    <table id="dg" title="用户管理" class="easyui-datagrid"
+            toolbar="#toolbar" pagination="true" idField="id" 
+            rownumbers="true" fitColumns="true" singleSelect="false">
+        <thead>
+            <tr>
+            	<th data-options="field:'ck',checkbox:true"></th>
+            	<th field="id" width="50" >批次id</th>
+                <th field="products_name" width="50" editor="{type:'validatebox',options:{required:true}}" editor="{type:'validatebox',options:{required:true}}" >产品名称</th>
+                <th field="products_other" width="50" editor="{type:'validatebox',options:{required:false}}">产品备注</th>
+                <th field="manufacturer_id" width="50"  editor="{
+                              type:'combobox',
+                              options:{
+                                  valueField:'id',
+                                  textField:'cnt',
+                                  url:'manufacturersServlet?type=idlist',
+                                  required:'true',
+                                  panelHeight:'auto'
+                              }}">生产商id</th>
+                <th field="seller_id" width="50"  editor="{
+                              type:'combobox',
+                              options:{
+                                  valueField:'id',
+                                  textField:'cnt',
+                                  url:'sellersServlet?type=idlist',
+                                  required:'true',
+                                  panelHeight:'auto'
+                              }}"> 销售商id</th>
+                <th field="supplier_id" width="50"  editor="{
+                              type:'combobox',
+                              options:{
+                                  valueField:'id',
+                                  textField:'cnt',
+                                  url:'suppliersServlet?type=idlist',
+                                  required:'true',
+                                  panelHeight:'auto'
+                              }}">供应商id</th>
+  </tr>
+        </thead>
+    </table>
+    </div>
+     <div id="toolbar">
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="javascript:$('#dg').edatagrid('addRow')">添加</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="javascript:$('#dg').edatagrid('destroyRow')">删除</a>
+         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" plain="true" onclick="deleteRows()">批量删除</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" plain="true" onclick="javascript:$('#dg').edatagrid('saveRow')">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-undo" plain="true" onclick="javascript:$('#dg').edatagrid('cancelRow')">撤销</a>
+        	<button id="PageRefresh" class="easyui-linkbutton" iconCls="icon-reload">重新加载</button>
+        	<div>
+        	<input id="searchid" name="searchid" class="easyui-validatebox" value="1" required="true"  style="width: 200px;" onkeyup="this.value=this.value.replace(/\D/g,'')"
+    onafterpaste="this.value=this.value.replace(/\D/g,'')">
+         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="javascript:searchId()">批次号查询</a>
+         <input id="searchname" name="searchname" class="easyui-validatebox" required="true"  style="width: 200px;" >
+         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="javascript:searchName()">产品名称查询</a>
+         </div>
+    </div>
+    
+</body>
+</html>

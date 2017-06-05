@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Basic DataGrid - jQuery EasyUI Demo</title>
+    <link rel="stylesheet" type="text/css" href="js/jquery/easyui/themes/default/easyui.css">  
+<link rel="stylesheet" type="text/css" href="js/jquery/easyui/themes/icon.css">  
+<link rel="stylesheet" type="text/css" href="js/jquery/easyui/demo/demo.css">  
+<script type="text/javascript" src="js/jquery/easyui/jquery.min.js"></script>  
+<script type="text/javascript" src="js/jquery/easyui/jquery.easyui.min.js"></script>  
+    <script type="text/javascript" src="js/jquery/easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="js/jquery/easyui/jquery.edatagrid.js"></script>
+    <script>
+   $(function(){
+           $('#dg').edatagrid({
+               url: 'suppliersServlet?type=list',
+               saveUrl: 'suppliersServlet?type=save',
+               updateUrl: 'suppliersServlet?type=save',
+               destroyUrl: 'suppliersServlet?type=delete'
+           });
+   });     
+    </script>
+</head>
+<body>
+    <table id="dg" title="供应商管理" class="easyui-datagrid"
+            toolbar="#toolbar" pagination="true" idField="id" 
+            rownumbers="true" fitColumns="true" singleSelect="false" >
+        <thead>
+            <tr>
+            	<th data-options="field:'ck',checkbox:true"></th>
+                <th field="supplier_name" width="50" editor="{type:'validatebox',options:{required:true}}" >供应商名称</th>
+                  <th field="supplier_permit" width="50"editor="{type:'validatebox',options:{required:true}}" >销售许可证号</th>
+                  <th field="supplier_code" width="50"editor="{type:'validatebox',options:{required:true}}" >供应商代号</th>
+                  <th field="supplier_address" width="50"editor="{type:'validatebox',options:{required:true}}" >供应商地址</th>
+                  <th field="supplier_phone" width="50" editor="{type:'validatebox',options:{required:true}}" >供应商电话</th>
+                  <th field="supplier_mail" width="50"  editor="{type:'validatebox',options:{validType:'email',required:true}}" >供应商邮箱</th>
+                    <th field="supplier_contact" width="50" editor="{type:'validatebox',options:{required:true}}" >供应商联系人</th>
+                <th field="supplier_other" width="50" editor="{type:'validatebox',options:{required:false}}">供应商备注</th>
+                
+  
+        </thead>
+    </table>
+     <div id="toolbar">
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="javascript:$('#dg').edatagrid('addRow')">添加</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="javascript:$('#dg').edatagrid('destroyRow')">删除</a>
+         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" plain="true" onclick="deleteRows()">批量删除</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save" plain="true" onclick="javascript:$('#dg').edatagrid('saveRow')">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-undo" plain="true" onclick="javascript:$('#dg').edatagrid('cancelRow')">撤销</a>
+    </div>
+    
+</body>
+</html>

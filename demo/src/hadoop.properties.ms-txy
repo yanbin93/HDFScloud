@@ -1,0 +1,3 @@
+HADOOP_URL=hdfs://MS-TXY:9002
+HIVE_URL = jdbc:hive2://MS-TXY:10000/default
+username_table=nametest
