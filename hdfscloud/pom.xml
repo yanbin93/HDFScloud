@@ -197,12 +197,11 @@
  <plugin>
             <groupId>org.apache.tomcat.maven</groupId>
             <artifactId>tomcat7-maven-plugin</artifactId>
-            <version>2.2</version>
+            <version>2.1</version>
             <configuration>
                 <url>http://localhost:18080/manager/text</url>
-                <server>test</server>
-                <username>tomcat</username>
-                <password>tomcat</password>
+                <server>tomcat7</server>
+		<path>hfdscloud</path>
             </configuration>
         </plugin>
         </plugins>

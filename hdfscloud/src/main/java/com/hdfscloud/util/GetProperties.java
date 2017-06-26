@@ -15,11 +15,13 @@ public class GetProperties {
 			e.printStackTrace();
 		}
 	}
-	private static String name="/src/hadoop.properties";
-	private static String propertyName=projectPath+name;
+	private static String name="/hadoop.properties";
+//private static String propertyName=projectPath+name;
+private static String propertyName="/home/yanbin/workspace/properties"+name;
 	public static String getProperties(String key)throws Exception{
 	    String property=null;
 	    Properties pps = new Properties();
+		System.out.print (propertyName);
         pps.load(new FileInputStream(propertyName));
         property=pps.getProperty(key).toString();
         return property;

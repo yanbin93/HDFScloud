@@ -130,6 +130,15 @@ public class RegistServlet extends HttpServlet {
 		PrintWriter out= response.getWriter();
 		//DBconn conn=new DBconn();
 		Connection con =dbUtil.createConn2();
+		if (con!=null){
+			System.out.println("==================");
+			System.out.println("数据库连接成功！");
+			System.out.println("==================");
+		}else{
+			System.out.println("==================");
+			System.out.println("数据库连接失败！");
+			System.out.println("==================");
+		}
 		MD5 md=new MD5();
 		String username=request.getParameter("usernamesignup");
 		String pwd=request.getParameter("passwordsignup");
